@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>tic-tac-toe</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script src="script.js"></script>
 </head>
 <style>
     #title {
@@ -40,14 +42,18 @@
     }
 
     #player_1 {
-        background-color: darkred;
+        /*background-color: darkred;*/
+        /*
+        javascript adds active_player class to change the background for these
+        the ID css overrides the class css from javascript so i commented it out temporarily
+        */
         text-align: center;
         height: 40vh;
 
     }
 
     #player_2 {
-        background-color: aqua;
+        /*background-color: aqua;*/
         text-align: center;
         height: 40vh;
 
@@ -62,8 +68,18 @@
         padding: 0;
     }
 
-
-
+    /* js */
+    .ttt_cell{
+        width: 33%;
+        box-sizing: border-box;
+        border: 1px solid black;
+        height: 33%;
+        display: inline-block;
+        font-size: initial;
+    }
+    .active_player{
+        background-color: red;
+    }
 
 </style>
 <body>
@@ -93,9 +109,11 @@
     <div id="players" class="col-lg-2">
         <div id="player_1">
             <h1>Player1</h1>
+            <span>X</span>
         </div>
         <div id="player_2">
             <h1>Player 2</h1>
+            <span>O</span>
         </div>
     </div>
     <div id="game_area" class="col-lg-10">
