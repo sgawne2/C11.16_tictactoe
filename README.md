@@ -28,16 +28,19 @@
 - Cung
 - Jason
 - Dan Lee from C10
+
 ## Team 2
 - Brian
 - Patrick
 - Miles
 - Kyle Marx from C10
+
 ## Team 3
 - Sean Gawne
 - Luis
 - Sean Dove
 - Collette Tamez from C10
+
 ## Team 4
 - Sloan
 - Tammy
