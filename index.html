@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tic-tac-toe</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<style>
+    #title {
+        background-color: yellow;
+        text-align: center;
+    }
+
+    #stats_area {
+        background-color: lightblue;
+        text-align: center;
+
+    }
+    #stats_main{
+        padding: 0;
+    }
+
+    ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    #buttons {
+        background-color: coral;
+        text-align: center;
+        padding-top: 4%;
+        padding-bottom: 1.5%;
+    }
+
+    #game_area {
+        background-color: lightgreen;
+        text-align: center;
+        height: 80vh;
+
+    }
+
+    #player_1 {
+        background-color: darkred;
+        text-align: center;
+        height: 40vh;
+
+    }
+
+    #player_2 {
+        background-color: aqua;
+        text-align: center;
+        height: 40vh;
+
+    }
+    #players{
+        padding: 0;
+    }
+    #player_1 > h1, #player_2 > h1{
+        margin-top: 0;
+    }
+    #players_area{
+        padding: 0;
+    }
+
+
+
+
+</style>
+<body>
+<div id="header">
+
+    <div id="title" class="col-lg-12">
+        <h1>Title</h1>
+    </div>
+</div>
+<div id="stats_main" class="col-lg-12">
+    <div id="stats_area" class="col-lg-6">
+        <h1>Stats</h1>
+        <ul>
+            <li>Games Played</li>
+            <li>Player1 Score</li>
+            <li>Player2 Score</li>
+        </ul>
+    </div>
+    <div id='buttons' class="col-lg-6">
+        <button id="settings" class="btn btn-info">settings</button>
+        <button id="reset" class="btn btn-warning">reset</button>
+
+    </div>
+</div>
+
+<div id="players_area" class="col-lg-12">
+    <div id="players" class="col-lg-2">
+        <div id="player_1">
+            <h1>Player1</h1>
+        </div>
+        <div id="player_2">
+            <h1>Player 2</h1>
+        </div>
+    </div>
+    <div id="game_area" class="col-lg-10">
+        <h1>Game Area</h1>
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
