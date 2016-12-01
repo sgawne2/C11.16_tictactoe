@@ -1,8 +1,14 @@
 var main_game = null;
+<<<<<<< HEAD
+var games_played = 0;
+var player_1_score = 0;
+var player_2_score = 0;
+=======
 var size = 4;
 //this would be a 10x10 board
 // var timer;
 // var countdown = 10;
+>>>>>>> 616344fa3d426bc7fa37d7b6522dd5138252f23b
 $(document).ready(function(){
     main_game = new game_template($('.game_board'), size, size);
         //creates a new game_template object called main_game
@@ -245,6 +251,11 @@ var player_template = function(symbol, element){
             //returns the symbol (e.g: "X") given in the symbol parameter when the method was called in create_players
     };
 };
+<<<<<<< HEAD
+function reset(){
+
+}
+=======
 
 function set_win_conditions(height, width) {
     var win_conditions = [];
@@ -345,3 +356,4 @@ function countdown() {
     }
 };
 */
+>>>>>>> 616344fa3d426bc7fa37d7b6522dd5138252f23b
