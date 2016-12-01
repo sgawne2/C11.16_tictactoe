@@ -38,7 +38,7 @@
         background-color: lightgreen;
         text-align: center;
         height: 80vh;
-
+        position:relative;
     }
 
     #player_1 {
@@ -49,7 +49,6 @@
         */
         text-align: center;
         height: 40vh;
-
     }
 
     #player_2 {
@@ -70,18 +69,22 @@
 
     /* js */
     .ttt_cell{
-        width: 25%;
-        height: 25%;
+        width: 33%;
+        height: 33%;
         box-sizing: border-box;
         border: 1px solid black;
         height: 33%;
         display: inline-block;
         font-size: initial;
+        position: relative;
     }
     .active_player{
         background-color: red;
     }
-
+    #timer {
+        background: white;
+        position:
+    }
 </style>
 <body>
 <div id="header">
@@ -102,7 +105,9 @@
     <div id='buttons' class="col-lg-6">
         <button id="settings" class="btn btn-info">settings</button>
         <button id="reset" class="btn btn-warning">reset</button>
-
+        <div id="timer">
+            timer
+        </div>
     </div>
 </div>
 
@@ -119,9 +124,6 @@
     </div>
     <div id="game_area" class="col-lg-10">
         <!--<h1>Game Area</h1>-->
-        <div>
-
-        </div>
         <div>
 
         </div>

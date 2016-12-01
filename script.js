@@ -1,11 +1,14 @@
 var main_game = null;
+var timer;
+var countdown = 10;
 $(document).ready(function(){
-    main_game = new game_template($('#game_area'), 4, 4);
-    //creates a new game_template object called main_game
-    main_game.create_cells(4, 4);
-    //calls create_cells() method in main_game object to create 9 cells in the #game_area
+    var size = 3;
+    main_game = new game_template($('#game_area'), size, size);
+        //creates a new game_template object called main_game
+    main_game.create_cells(size, size);
+        //calls create_cells() method in main_game object to create 9 cells in the #game_area
     main_game.create_players();
-    //calls create_players method in main_game object to create player 1 and player 2 and activates player 1 as the current player since it will be the first turn
+        //calls create_players method in main_game object to create player 1 and player 2 and activates player 1 as the current player since it will be the first turn
 });
 
 var cell_template = function(parent){
@@ -19,13 +22,19 @@ var cell_template = function(parent){
         //placeholder for the div created by create_self()
     this.symbol = null;
         //placeholder for the symbol of the current player
+    this.element_width = $(this.parent.element).width();
+    this.cell_width = 100 / this.parent.rows;
     this.create_self = function(){
         //create a div with class ttt_cell
+        console.log(this.element_width);
+        console.log('cell width: ', this.cell_width);
         this.element = $("<div>",
             {
                 class:'ttt_cell',
                     //gives the div a class labeling it as a tic tac toe cell
-                html: '&nbsp;'
+                width: this.cell_width + "%",
+                height: this.cell_width + "%",
+                html:'&nbsp;'
                     //space character that prevents an automatic line break at its position
             }
         ).click(this.cell_click);
@@ -165,6 +174,18 @@ var game_template = function(main_element, rows, cols){
             //calls switch_players() method on this game_template to change the current_players property to the next player's index in the players array
         self.players[self.current_player].activate_player();
             //calls activate players on the now switched current player to add the active_player class to their element
+        clearTimeout(timer);
+        timer = setTimeout(function(){
+                $("#timer").text(countdown);
+                countdown--;
+            console.log(countdown);
+                if (countdown >= 0) {
+                    setTimeout(timer, 1000);
+                } else {
+                    console.log('stop');
+                    countdown = 10;
+                }
+        }, 1000);
     };
     this.check_win_conditions = function(){
         //console.log('check win conditions called');
@@ -228,35 +249,98 @@ function set_win_conditions(height, width) {
     var win_conditions = [];
     var temp_array = [];
 //ROWS
-    for (var i = 0; i < height*width; i = j) {
-        //for each cell
+    for (var i = 0; i < height * width; i = j) {
+        //i starts at 0
+        //stop loop before i = the amount of cells on the board
+        //after the work: set i to the value of j
+            //will be the first value in the next row after j loop completes a row
         for (var j = i; j < i + width; j++) {
-            //for each
+            //j will start as the value of i when each row is started
+            //stop before j = value of first cell + the amount of cells in a row
+                //eg: on row 1 with 3 cells per row, j < 0 + 3 will stop the row on 2
+            //after the work: increment j by 1
             temp_array.push(j);
+                //put the current value of j in the temporary array
         }
         win_conditions.push(temp_array);
+            //puts the array of the completed row into the win conditions array
         temp_array = [];
+            //clears temporary array for the next row to use it
     }
 //COLUMNS
-    for (var i = 0; i < width; i++) {
-        //for each column
-        for (var j = i; j < width*height; j += width) {
+    for (i = 0; i < height; i++) {
+        //i starts as 0
+        //stop loop before i = the amount of rows on the board
+        //after the work: increment i by one
+        for (j = i; j < width * height; j += width) {
+            //j starts as the value of i when each column is started
+            //stop before j = the amount of cells on the board
+                //in a 3x3 board the last index we'd need to use is 8
+                //since there are 9 cells on a 3x3 board, this would stop before 9, or in other words, on 8
+            //after the work: add the amount of columns to j
+                //eg: on a 3x3 board, start on 0, the next index in the column would be 3
+                //j (0: first index) + width (3 cells) = next item in column
+                //0 + 3 = 3, j is now 3
+                //3 + 3 = 6, j is now 6
+                //6 + 3 = 9, j is 9 (width*height) so the loop stops
+                //on the next loop, i will increment so j will start as 1 since i incremented
             temp_array.push(j);
         }
         win_conditions.push(temp_array);
         temp_array = [];
     }
-//DIAGNW
-    for (var i = 0; i <= height*width-1; i += width +1) {
+//DIAGONALS NW TO SE
+    for (i = 0; i < height * width; i += width + 1) {
+        //i starts as 0
+        //stop before i = total amount of cells
+        //after the work: add the amount of columns + 1 to i
+            //eg: in a 4x4 board, the first cell in a diagonal would be index 0
+            //the next cell would be one row down and one column to the right of that
+            //if we add the amount of columns to i we'll be on the next row
+                //eg: 0 + width (4) = 4
+                /*
+                 [0, 1, 2, 3],
+                 [4, 5, 6, 7],
+                 [8, 9, 10, 11],
+                 [12, 13, 14, 15]
+                 */
+            //we just add one to that number to move one space to the right
+            //the next time we do this we'll land on 10
+            //5 + 4 (the width) + 1 = 10
         temp_array.push(i);
     }
     win_conditions.push(temp_array);
     temp_array = [];
-//DIAGNE
-    for (var i = width - 1; i < height*width-1; i += width-1) {
+//DIAGONALS NE to SW
+    for (i = width - 1; i < height * width; i += width - 1) {
+        //i starts as the total amount of columns - 1
+            //subtracting 1 from the amount of columns gives us the index of the last cell in the first row
+            //in a 3x3 board this means we start on index 2, or the 3rd cell
+            //3 (width) - 1 = 2;
+        //stop when i is EQUAL to the amount of cells on the board
+        //after the work: add the amount of columns - 1 to i
+        //eg: on a 3x3 board, if we start on 2, add 3
+        //we're now one row down, or on 5
+        /*
+         [0, 1, 2],
+         [3, 4, 5],
+         [6, 7, 8]
+         */
+        //subtract one more and we've shifted one cell to the left, on 4
         temp_array.push(i);
     }
     win_conditions.push(temp_array);
-    temp_array = [];
     return win_conditions;
 }
+
+/*
+function countdown() {
+    $("#timer").text(count);
+    count--;
+    if (count >= 0) {
+        setTimeout(countdown, 1000);
+    } else {
+        console.log('stop');
+    }
+};
+*/
