@@ -1,8 +1,8 @@
 var main_game = null;
 $(document).ready(function(){
-    main_game = new game_template($('#game_area'));
+    main_game = new game_template($('#game_area'), 4, 4);
     //creates a new game_template object called main_game
-    main_game.create_cells(9);
+    main_game.create_cells(4, 4);
     //calls create_cells() method in main_game object to create 9 cells in the #game_area
     main_game.create_players();
     //calls create_players method in main_game object to create player 1 and player 2 and activates player 1 as the current player since it will be the first turn
@@ -73,12 +73,14 @@ var cell_template = function(parent){
     };
 };
 
-var game_template = function(main_element){
+var game_template = function(main_element, rows, cols){
     //console.log('game template constructor called');
     var self = this;
         //assigns current "this" to variable so it can still be used when "this" changes
     this.element = main_element;
         //assigns main_element (the main game board div) to this.element
+    this.rows = rows;
+    this.cols = cols;
     this.cell_array = [];
         //placeholder for the array that will store the created game cell objects (this.create_cells())
     this.players = [];
@@ -88,6 +90,7 @@ var game_template = function(main_element){
     //   0    1    2
     //   3    4    5
     //   6    7    8
+    /*
     this.win_conditions = [
         [0,1,2],
         [3,4,5],
@@ -98,11 +101,14 @@ var game_template = function(main_element){
         [0,4,8],
         [2,4,6]
     ];
-        //an array of all possible winning combinations on a 3x3 board (line 63-65 gives names to the tic tac toe cells)
+    */
+    this.win_conditions = set_win_conditions(this.rows, this.cols);
+        //an array of all possible winning combinations on a 3x3 board (line 92-99 gives names to the tic tac toe cells)
         //there might be a better way to do this so that it can work with any amount of cells
-    this.create_cells = function(cell_count) {
+    this.create_cells = function(rows, cols) {
         //creates number of tic tac toe cells based on cell_count parameter (9 would be a normal game)
         //console.log('game template create cells called');
+        var cell_count = rows * cols;
         for (var i = 0; i < cell_count; i++) {
             //loops based on cell_count amount (9 times in a normal game)
             var cell = new cell_template(this);
@@ -178,7 +184,7 @@ var game_template = function(main_element){
                     console.log('symbols match');
                     count++;
                         //increment count (when count is 3 you win in a normal game)
-                    if(count==3){
+                    if(count==this.rows){
                         //if count reaches 3
                         console.log('someone won');
                         this.player_wins(this.players[this.current_player]);
@@ -217,3 +223,40 @@ var player_template = function(symbol, element){
             //returns the symbol (e.g: "X") given in the symbol parameter when the method was called in create_players
     };
 };
+
+function set_win_conditions(height, width) {
+    var win_conditions = [];
+    var temp_array = [];
+//ROWS
+    for (var i = 0; i < height*width; i = j) {
+        //for each cell
+        for (var j = i; j < i + width; j++) {
+            //for each
+            temp_array.push(j);
+        }
+        win_conditions.push(temp_array);
+        temp_array = [];
+    }
+//COLUMNS
+    for (var i = 0; i < width; i++) {
+        //for each column
+        for (var j = i; j < width*height; j += width) {
+            temp_array.push(j);
+        }
+        win_conditions.push(temp_array);
+        temp_array = [];
+    }
+//DIAGNW
+    for (var i = 0; i <= height*width-1; i += width +1) {
+        temp_array.push(i);
+    }
+    win_conditions.push(temp_array);
+    temp_array = [];
+//DIAGNE
+    for (var i = width - 1; i < height*width-1; i += width-1) {
+        temp_array.push(i);
+    }
+    win_conditions.push(temp_array);
+    temp_array = [];
+    return win_conditions;
+}
