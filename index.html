@@ -41,6 +41,13 @@
         position:relative;
     }
 
+    .game_board {
+        background-color: white;
+        height: 75vh;
+        width: 75vh;
+        margin:auto;
+    }
+
     #player_1 {
         /*background-color: darkred;*/
         /*
@@ -75,8 +82,9 @@
         border: 1px solid black;
         height: 33%;
         display: inline-block;
-        font-size: initial;
+        /*font-size: initial;*/
         position: relative;
+        font-size:100%;
     }
     .active_player{
         background-color: red;
@@ -124,33 +132,7 @@
     </div>
     <div id="game_area" class="col-lg-10">
         <!--<h1>Game Area</h1>-->
-        <div>
-
-        </div>
-        <div>
-
-        </div>
-        <div>
-
-        </div>
-        <div>
-
-        </div>
-        <div>
-
-        </div>
-        <div>
-
-        </div>
-        <div>
-
-        </div>
-        <div>
-
-        </div>
-    </div>
-
-
+        <div class="game_board"></div>
 </div>
 </body>
 </html>

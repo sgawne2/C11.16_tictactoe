@@ -1,9 +1,10 @@
 var main_game = null;
-var timer;
-var countdown = 10;
+var size = 4;
+//this would be a 10x10 board
+// var timer;
+// var countdown = 10;
 $(document).ready(function(){
-    var size = 3;
-    main_game = new game_template($('#game_area'), size, size);
+    main_game = new game_template($('.game_board'), size, size);
         //creates a new game_template object called main_game
     main_game.create_cells(size, size);
         //calls create_cells() method in main_game object to create 9 cells in the #game_area
@@ -22,8 +23,8 @@ var cell_template = function(parent){
         //placeholder for the div created by create_self()
     this.symbol = null;
         //placeholder for the symbol of the current player
-    this.element_width = $(this.parent.element).width();
     this.cell_width = 100 / this.parent.rows;
+        //divides 100 by the amount of cells in a row to get a percentage for the width of the cells
     this.create_self = function(){
         //create a div with class ttt_cell
         console.log(this.element_width);
@@ -268,9 +269,9 @@ function set_win_conditions(height, width) {
             //clears temporary array for the next row to use it
     }
 //COLUMNS
-    for (i = 0; i < height; i++) {
+    for (i = 0; i < width; i++) {
         //i starts as 0
-        //stop loop before i = the amount of rows on the board
+        //stop loop before i = the amount of columns on the board
         //after the work: increment i by one
         for (j = i; j < width * height; j += width) {
             //j starts as the value of i when each column is started
