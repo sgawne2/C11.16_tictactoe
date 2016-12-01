@@ -2,17 +2,26 @@ var main_game = null;
 var games_played = 0;
 var player_1_score = 0;
 var player_2_score = 0;
-var size = 4;
+var size = 3;
 // var timer;
 // var countdown = 10;
 $(document).ready(function(){
     main_game = new game_template($('.game_board'), size, size);
         //creates a new game_template object called main_game
     main_game.create_cells(size, size);
-        //calls create_cells() method in main_game object to create 9 cells in the #game_area
+        //calls create_cells() method in main_game object to create size * size (3x3 = 9) cells in the .game_board
     main_game.create_players();
         //calls create_players method in main_game object to create player 1 and player 2 and activates player 1 as the current player since it will be the first turn
+    $('#settings-button').click(settings_clicked);
+    $('#settings-popup-bg').click(function() {
+        $('#settings-container').hide();
+    })
 });
+
+function settings_clicked() {
+    console.log("you clicked settings");
+    $('#settings-container').show();
+}
 
 var cell_template = function(parent){
     var self = this;
@@ -221,6 +230,9 @@ var game_template = function(main_element, rows, cols){
     };
     this.player_wins = function(player){
         console.log(player.get_symbol()+' won the game');
+        for (var i = 0; i < this.cell_array.length; i++) {
+            this.cell_array[i].element.addClass('selected game_over');
+        }
         alert(player.get_symbol()+' won the game');
             //just tells the browser to alert who won the game
             //probably change this to something else
