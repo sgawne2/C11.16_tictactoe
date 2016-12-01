@@ -1,4 +1,7 @@
 var main_game = null;
+var games_played = 0;
+var player_1_score = 0;
+var player_2_score = 0;
 $(document).ready(function(){
     main_game = new game_template($('#game_area'));
     //creates a new game_template object called main_game
@@ -217,3 +220,6 @@ var player_template = function(symbol, element){
             //returns the symbol (e.g: "X") given in the symbol parameter when the method was called in create_players
     };
 };
+function reset(){
+
+}
