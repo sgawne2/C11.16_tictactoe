@@ -2,7 +2,6 @@ var main_game = null;
 var games_played = 0;
 var player_1_score = 0;
 var player_2_score = 0;
-var currentGid = -1;
 var global_current_player = 0;
 var isUltimate = false;
 var xImage = "images/red_chip.png";
@@ -32,15 +31,14 @@ $(document).ready(function(){
 });
 
 function ultimate(){
-    for (var i = 0; i < size * size; i++) {
     size = 3;
     reset();
-
+    for (var i = 0; i < 9; i++) {
         $(main_game.cell_array[i].element).unbind('click');
     }
     main_game = [];
     $(".ttt_cell").html("");
-    for (var i = 0; i < size * size; i++) {
+    for (i = 0; i < 9; i++) {
         main_game.push(new game_template($('.game_board > .ttt_cell:eq('+ i +')'), size, size));
         main_game[i].create_cells(size, size);
         main_game[i].create_players();
@@ -310,10 +308,14 @@ var game_template = function(main_element, rows, cols){
         if (isUltimate) {
             if (player.get_symbol() === "X") {
                 this.element.attr('data', global_current_player);
+                this.element.addClass('selected');
                 this.element.html('<img src="' + xImage + '">');
+                check_ultimate_win();
             } else {
                 this.element.attr('data', global_current_player);
+                this.element.addClass('selected');
                 this.element.html('<img src="' + oImage + '">');
+                check_ultimate_win();
             }
         } else {
             alert(player.get_symbol()+' won the game');
@@ -443,30 +445,36 @@ function set_win_conditions(height, width) {
 }
 
 function check_ultimate_win() {
-    var ultimate_wins = win_conditions(3,3);
+    var ultimate_wins = set_win_conditions(3,3);
+    var ultimate_cells = $('.game_board > .ttt_cell');
     for(var i=0; i<ultimate_wins.length;i++){
-        //loops through every item in win_conditions array
-        //each item is also an array (an array of 3 cells needed to win a game)
-        //we loop through THAT next in the j loop
         var count=0;
-        //count will increment by one for each cell in the sub array that the current player has a space in
-        //console.log('checking win conditions ',this.win_conditions);
         for(var j=0; j<ultimate_wins[i].length; j++){
-            //loops through each item in the current array that was in the win_conditions array
-            if(this.cell_array[this.win_conditions[i][j]].get_symbol() == current_player_symbol){
-                //if the symbol of the current index (j) in the 3 cells array inside the win_conditions array is the same as the current player's symbol
-                console.log('symbols match');
-                count++;
-                //increment count (when count is 3 you win in a normal game)
-                if(count===this.rows){
+                if($(ultimate_cells[ultimate_wins[i][j]]).attr('data') == global_current_player) {
+                    console.log('symbols match');
+                    count++;
+                if(count===3){
                     console.log('count', count, 'rows', this.rows);
-                    //if count reaches 3
                     console.log('someone won');
-                    // this.player_wins(this.players[this.current_player]);
-                    this.player_wins(this.players[global_current_player]);
-                    //calls this.player_wins method and passes it the current player (player in the players array at the current_player's index)
-                }//end of count == 3
-            } //end of symbols match
-        } //end of inner loop
-    } //end of outer loop
+                    if (global_current_player) {
+                        alert("Blue wins");
+                        $('.ttt_cell').addClass('selected game_over');
+                    } else {
+                        alert("Red wins");
+                        $('.ttt_cell').addClass('selected game_over');
+                    }
+                }
+            }
+        }
+    }
+    var selected = $('.game_board').find('.selected').length;
+    console.log(selected);
+    //assigns the amount of elements with the class 'selected' that are children of this game board to variable
+    var game_over = $('.game_board').find('.game_over').length;
+    console.log(game_over);
+    //assigns the amount of elements with the class 'game_over' that are children of this game board to variable
+    if (selected === 9 && !game_over ) {
+        //if all the cells are selected and no cells have class 'game_over'
+        alert("Draw Game");
+    }
 }
