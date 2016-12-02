@@ -7,6 +7,7 @@ var size = 3;
 // var timer;
 // var countdown = 10;
 $(document).ready(function(){
+    $('#ultimate_button').click(ultimate);
     $('#reset_button').click(reset);
     main_game = new game_template($('.game_board'), size, size);
     //creates a new game_template object called main_game
@@ -24,6 +25,19 @@ $(document).ready(function(){
         $('#settings-container').hide();
     });
 });
+function ultimate(){
+    for (var i = 0; i < 9; i++) {
+        $(main_game.cell_array[i].element).unbind('click');
+    }
+    main_game = [];
+    $(".ttt_cell").html("");
+    for (var i = 0; i < 9; i++) {
+        main_game.push(new game_template($('.game_board > .ttt_cell:eq('+ i +')'), size, size));
+        main_game[i].create_cells(size, size);
+        main_game[i].create_players();
+
+    }
+}
 
 function reset(){
     $(".game_board").html("");
@@ -164,7 +178,7 @@ var game_template = function(main_element, rows, cols){
         }
     };
     this.create_players = function(){
-        var player1 = new player_template('X', $('#player_1'));
+        var player1 = new player_template('X' , $('#player_1'));
         //creates new player_template object with symbol: X, and element with id #player1
         var player2 = new player_template('O', $('#player_2'));
         //creates new player_template object with symbol: O, and element: with id #player2
