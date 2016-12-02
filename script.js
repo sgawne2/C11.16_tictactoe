@@ -2,6 +2,7 @@ var main_game = null;
 var games_played = 0;
 var player_1_score = 0;
 var player_2_score = 0;
+//var size = parseInt(prompt("select board size"));
 var size = 3;
 // var timer;
 // var countdown = 10;
@@ -183,6 +184,7 @@ var game_template = function(main_element, rows, cols){
         console.log("this:", this, "self:", self);
             //"this" actually didn't change here, we could use it if we wanted to for some reason
         self.check_win_conditions();
+        self.check_draw();
             //calls check_win_conditions() method to test if the clicked cell won the game
         self.players[self.current_player].deactivate_player();
             //calls deactivate_player() method on the current player to remove the active_player class from their element
@@ -232,12 +234,11 @@ var game_template = function(main_element, rows, cols){
         } //end of outer loop
         //TODO check conditions
     };
-    // this.check_draw = function(){
-    //     for (var i = 0; i < this.cell_array.length; i++) {
-    //         var count = 0;
-    //         if()
-    //     };
-    // };
+    this.check_draw = function(){
+        if ($(this.element).find('.selected').length === this.rows * this.cols ) {
+            alert("Draw Game");
+        }
+    };
     this.player_wins = function(player){
         console.log(player.get_symbol()+' won the game');
         for (var i = 0; i < this.cell_array.length; i++) {
