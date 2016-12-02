@@ -307,8 +307,10 @@ var game_template = function(main_element, rows, cols){
         //alert(player.get_symbol()+' won the game');
         if (isUltimate) {
             if (player.get_symbol() === "X") {
+                this.element.attr('data', global_current_player);
                 this.element.html('<img src="' + xImage + '">');
             } else {
+                this.element.attr('data', global_current_player);
                 this.element.html('<img src="' + oImage + '">');
             }
         } else {
@@ -436,4 +438,33 @@ function set_win_conditions(height, width) {
     }
     win_conditions.push(temp_array);
     return win_conditions;
+}
+
+function check_ultimate_win() {
+    var ultimate_wins = win_conditions(3,3);
+    for(var i=0; i<ultimate_wins.length;i++){
+        //loops through every item in win_conditions array
+        //each item is also an array (an array of 3 cells needed to win a game)
+        //we loop through THAT next in the j loop
+        var count=0;
+        //count will increment by one for each cell in the sub array that the current player has a space in
+        //console.log('checking win conditions ',this.win_conditions);
+        for(var j=0; j<ultimate_wins[i].length; j++){
+            //loops through each item in the current array that was in the win_conditions array
+            if(this.cell_array[this.win_conditions[i][j]].get_symbol() == current_player_symbol){
+                //if the symbol of the current index (j) in the 3 cells array inside the win_conditions array is the same as the current player's symbol
+                console.log('symbols match');
+                count++;
+                //increment count (when count is 3 you win in a normal game)
+                if(count===this.rows){
+                    console.log('count', count, 'rows', this.rows);
+                    //if count reaches 3
+                    console.log('someone won');
+                    // this.player_wins(this.players[this.current_player]);
+                    this.player_wins(this.players[global_current_player]);
+                    //calls this.player_wins method and passes it the current player (player in the players array at the current_player's index)
+                }//end of count == 3
+            } //end of symbols match
+        } //end of inner loop
+    } //end of outer loop
 }
