@@ -2,11 +2,11 @@ var main_game = null;
 var games_played = 0;
 var player_1_score = 0;
 var player_2_score = 0;
-var currentGid = -1;
 var global_current_player = 0;
 var isUltimate = false;
 var xImage = "images/red_chip.png";
 var oImage = "images/blue_chip.png";
+var currentGrid = -1;
 //var size = parseInt(prompt("select board size"));
 var size = 3;
 // var timer;
@@ -17,9 +17,9 @@ $(document).ready(function(){
     main_game = new game_template($('.game_board'), size, size);
     //creates a new game_template object called main_game
     main_game.create_cells(size, size);
-        //calls create_cells() method in main_game object to create size * size (3x3 = 9) cells in the .game_board
+    //calls create_cells() method in main_game object to create size * size (3x3 = 9) cells in the .game_board
     main_game.create_players();
-        //calls create_players method in main_game object to create player 1 and player 2 and activates player 1 as the current player since it will be the first turn
+    //calls create_players method in main_game object to create player 1 and player 2 and activates player 1 as the current player since it will be the first turn
     $('#settings_button').click(settings_clicked);
     $('#settings-popup-bg').click(function() {
         $('#settings-container').hide();
@@ -32,15 +32,14 @@ $(document).ready(function(){
 });
 
 function ultimate(){
-    for (var i = 0; i < size * size; i++) {
     size = 3;
     reset();
-
+    for (var i = 0; i < 9; i++) {
         $(main_game.cell_array[i].element).unbind('click');
     }
     main_game = [];
     $(".ttt_cell").html("");
-    for (var i = 0; i < size * size; i++) {
+    for (i = 0; i < 9; i++) {
         main_game.push(new game_template($('.game_board > .ttt_cell:eq('+ i +')'), size, size));
         main_game[i].create_cells(size, size);
         main_game[i].create_players();
@@ -232,7 +231,7 @@ var game_template = function(main_element, rows, cols){
         //console.log("this:", this, "self:", self);
         //"this" actually didn't change here, we could use it if we wanted to for some reason
         self.check_win_conditions();
-            //calls check_win_conditions() method to test if the clicked cell won the game
+        //calls check_win_conditions() method to test if the clicked cell won the game
         self.check_draw();
         //self.players[self.current_player].deactivate_player();
         self.players[global_current_player].deactivate_player();
@@ -243,19 +242,19 @@ var game_template = function(main_element, rows, cols){
         self.players[global_current_player].activate_player();
         //calls activate players on the now switched current player to add the active_player class to their element
         /*
-        clearTimeout(timer);
-        timer = setTimeout(function(){
-            $("#timer").text(countdown);
-            countdown--;
-            console.log(countdown);
-            if (countdown >= 0) {
-                setTimeout(timer, 1000);
-            } else {
-                console.log('stop');
-                countdown = 10;
-            }
-        }, 1000);
-        */
+         clearTimeout(timer);
+         timer = setTimeout(function(){
+         $("#timer").text(countdown);
+         countdown--;
+         console.log(countdown);
+         if (countdown >= 0) {
+         setTimeout(timer, 1000);
+         } else {
+         console.log('stop');
+         countdown = 10;
+         }
+         }, 1000);
+         */
     };
     this.check_win_conditions = function(){
         console.log(this.win_conditions);
@@ -292,10 +291,10 @@ var game_template = function(main_element, rows, cols){
     this.check_draw = function(){
         var selected = $(this.element).find('.selected').length;
         console.log(selected);
-            //assigns the amount of elements with the class 'selected' that are children of this game board to variable
+        //assigns the amount of elements with the class 'selected' that are children of this game board to variable
         var game_over = $(this.element).find('.game_over').length;
         console.log(game_over);
-            //assigns the amount of elements with the class 'game_over' that are children of this game board to variable
+        //assigns the amount of elements with the class 'game_over' that are children of this game board to variable
         if (selected === this.rows * this.cols && !game_over ) {
             //if all the cells are selected and no cells have class 'game_over'
             alert("Draw Game");
@@ -309,8 +308,10 @@ var game_template = function(main_element, rows, cols){
         //alert(player.get_symbol()+' won the game');
         if (isUltimate) {
             if (player.get_symbol() === "X") {
+                this.element.attr('data', global_current_player);
                 this.element.html('<img src="' + xImage + '">');
             } else {
+                this.element.attr('data', global_current_player);
                 this.element.html('<img src="' + oImage + '">');
             }
         } else {
@@ -319,14 +320,14 @@ var game_template = function(main_element, rows, cols){
         //just tells the browser to alert who won the game
         //probably change this to something else
         //if(!this.no_click){
-            if(player.get_symbol()==='X'){
-                player_1_score++;
-                $('#p1Span').text(player_1_score);
-            }
-            else{
-                player_2_score++;
-                $('#p2Span').text(player_2_score);
-            }
+        if(player.get_symbol()==='X'){
+            player_1_score++;
+            $('#p1Span').text(player_1_score);
+        }
+        else{
+            player_2_score++;
+            $('#p2Span').text(player_2_score);
+        }
         //}
     };
 };
@@ -421,9 +422,9 @@ function set_win_conditions(height, width) {
 //DIAGONALS NE to SW
     for (i = width - 1; i <= height * width - width; i += width - 1) {
         //i starts as the total amount of columns - 1
-            //subtracting 1 from the amount of columns gives us the index of the last cell in the first row
-            //in a 3x3 board this means we start on index 2, or the 3rd cell
-            //3 (width) - 1 = 2;
+        //subtracting 1 from the amount of columns gives us the index of the last cell in the first row
+        //in a 3x3 board this means we start on index 2, or the 3rd cell
+        //3 (width) - 1 = 2;
         //stop when i is EQUAL to the index of the cell in the bottom left corner
         //after the work: add the amount of columns - 1 to i
         //eg: on a 3x3 board, if we start on 2, add 3
@@ -438,4 +439,33 @@ function set_win_conditions(height, width) {
     }
     win_conditions.push(temp_array);
     return win_conditions;
+}
+
+function check_ultimate_win() {
+    var ultimate_wins = win_conditions(3,3);
+    for(var i=0; i<ultimate_wins.length;i++){
+        //loops through every item in win_conditions array
+        //each item is also an array (an array of 3 cells needed to win a game)
+        //we loop through THAT next in the j loop
+        var count=0;
+        //count will increment by one for each cell in the sub array that the current player has a space in
+        //console.log('checking win conditions ',this.win_conditions);
+        for(var j=0; j<ultimate_wins[i].length; j++){
+            //loops through each item in the current array that was in the win_conditions array
+            if(this.cell_array[this.win_conditions[i][j]].get_symbol() == current_player_symbol){
+                //if the symbol of the current index (j) in the 3 cells array inside the win_conditions array is the same as the current player's symbol
+                console.log('symbols match');
+                count++;
+                //increment count (when count is 3 you win in a normal game)
+                if(count===this.rows){
+                    console.log('count', count, 'rows', this.rows);
+                    //if count reaches 3
+                    console.log('someone won');
+                    // this.player_wins(this.players[this.current_player]);
+                    this.player_wins(this.players[global_current_player]);
+                    //calls this.player_wins method and passes it the current player (player in the players array at the current_player's index)
+                }//end of count == 3
+            } //end of symbols match
+        } //end of inner loop
+    } //end of outer loop
 }
