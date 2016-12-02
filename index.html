@@ -59,7 +59,6 @@
         }
 
         .game_board {
-            background-color: rgba(255, 255, 255, 0.51);
             height: 75vh;
             width: 75vh;
             margin:auto;
@@ -110,10 +109,14 @@
             box-sizing: border-box;
             border: 1px solid black;
             display: inline-block;
-            font-size: 100px;
+            font-size: initial;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.51);
+
         }
         .active_player{
             color: white;
+            border-radius: 5px;
         }
         .active_player span {
             animation: blinker 1s linear infinite;
@@ -157,6 +160,12 @@
             <select id="select-cells" class="form-control">
                 <option>3</option>
                 <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
             </select>
         </div>
     </div>

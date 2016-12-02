@@ -19,7 +19,9 @@ $(document).ready(function(){
         $('#settings-container').hide();
     });
     $('#select-cells').change(function() {
-        alert('test');
+        size = parseInt( $('#select-cells').val() );
+        reset();
+        $('#settings-container').hide();
     });
 });
 
@@ -246,7 +248,9 @@ var game_template = function(main_element, rows, cols){
         //TODO check conditions
     };
     this.check_draw = function(){
-        if ($(this.element).find('.selected').length === this.rows * this.cols ) {
+        var selected = $(this.element).find('.selected').length;
+        var game_over = $(this.element).find('.game_over').length;
+        if (selected === this.rows * this.cols && game_over !== selected ) {
             alert("Draw Game");
         }
     };
@@ -258,14 +262,14 @@ var game_template = function(main_element, rows, cols){
         alert(player.get_symbol()+' won the game');
         //just tells the browser to alert who won the game
         //probably change this to something else
-        if(!this.no_click){
-            if(player.get_symbols()==='X'){
+        //if(!this.no_click){
+            if(player.get_symbol()==='X'){
                 player_1_score++;
             }
             else{
                 player_2_score++;
             }
-        }
+        //}
     };
 };
 
