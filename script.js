@@ -49,6 +49,7 @@ function ultimate(){
 }
 
 function reset(){
+    isUltimate = false;
     $(".game_board").html("");
     $("#pxScore").text(player_1_score);
     $("#poScore").text(player_2_score);
@@ -300,7 +301,7 @@ var game_template = function(main_element, rows, cols){
         }
     };
     this.player_wins = function(player){
-        console.log(player.get_symbol()+' won the game');
+        console.log(player.get_symbol() + ' won the game');
         for (var i = 0; i < this.cell_array.length; i++) {
             this.cell_array[i].element.addClass('selected game_over');
         }
@@ -318,7 +319,12 @@ var game_template = function(main_element, rows, cols){
                 check_ultimate_win();
             }
         } else {
-            alert(player.get_symbol()+' won the game');
+            if (player.get_symbol() == "X") {
+                alert('Red won the game');
+            }  else {
+                alert('Blue won the game');
+            }
+
         }
         //just tells the browser to alert who won the game
         //probably change this to something else
