@@ -98,7 +98,12 @@ var cell_template = function(parent){
     this.change_symbol = function(symbol){
         //console.log("this:", this, "self:", self);
         //"this" didn't change so we could use it here but Dan used self
-        this.element.text(symbol);
+        if (symbol == "X") {
+            this.element.html('<img src="images/x-test.png">');
+        } else {
+            //this.element.text(symbol);
+            this.element.html('<img src="images/o-test.png">');
+        }
         //changes the cell's text (with jQuery's .text() method) to the current player's symbol(an X or an O)
     };
     this.get_symbol = function(){
@@ -111,7 +116,7 @@ var cell_template = function(parent){
         //returns the symbol in the current cell, which we got from calling get_symbol() on the current player_template object
     };
 };
-
+$(main_game.cell_array[0].element).unbind('click');
 var game_template = function(main_element, rows, cols){
     //console.log('game template constructor called');
     var self = this;
@@ -205,6 +210,7 @@ var game_template = function(main_element, rows, cols){
         //calls switch_players() method on this game_template to change the current_players property to the next player's index in the players array
         self.players[self.current_player].activate_player();
         //calls activate players on the now switched current player to add the active_player class to their element
+        /*
         clearTimeout(timer);
         timer = setTimeout(function(){
             $("#timer").text(countdown);
@@ -217,8 +223,10 @@ var game_template = function(main_element, rows, cols){
                 countdown = 10;
             }
         }, 1000);
+        */
     };
     this.check_win_conditions = function(){
+        console.log(this.win_conditions);
         //console.log('check win conditions called');
         var current_player_symbol = this.players[this.current_player].get_symbol();
         //calls .get_symbol() method on the player in the this.players array at the current_player index
@@ -236,7 +244,8 @@ var game_template = function(main_element, rows, cols){
                     console.log('symbols match');
                     count++;
                     //increment count (when count is 3 you win in a normal game)
-                    if(count==this.rows){
+                    if(count===this.rows){
+                        console.log('count', count, 'rows', this.rows);
                         //if count reaches 3
                         console.log('someone won');
                         this.player_wins(this.players[this.current_player]);
@@ -245,12 +254,16 @@ var game_template = function(main_element, rows, cols){
                 } //end of symbols match
             } //end of inner loop
         } //end of outer loop
-        //TODO check conditions
     };
     this.check_draw = function(){
         var selected = $(this.element).find('.selected').length;
+        console.log(selected);
+            //assigns the amount of elements with the class 'selected' that are children of this game board to variable
         var game_over = $(this.element).find('.game_over').length;
-        if (selected === this.rows * this.cols && game_over !== selected ) {
+        console.log(game_over);
+            //assigns the amount of elements with the class 'game_over' that are children of this game board to variable
+        if (selected === this.rows * this.cols && !game_over ) {
+            //if all the cells are selected and no cells have class 'game_over'
             alert("Draw Game");
         }
     };
@@ -361,12 +374,12 @@ function set_win_conditions(height, width) {
     win_conditions.push(temp_array);
     temp_array = [];
 //DIAGONALS NE to SW
-    for (i = width - 1; i < height * width; i += width - 1) {
+    for (i = width - 1; i <= height * width - width; i += width - 1) {
         //i starts as the total amount of columns - 1
-        //subtracting 1 from the amount of columns gives us the index of the last cell in the first row
-        //in a 3x3 board this means we start on index 2, or the 3rd cell
-        //3 (width) - 1 = 2;
-        //stop when i is EQUAL to the amount of cells on the board
+            //subtracting 1 from the amount of columns gives us the index of the last cell in the first row
+            //in a 3x3 board this means we start on index 2, or the 3rd cell
+            //3 (width) - 1 = 2;
+        //stop when i is EQUAL to the index of the cell in the bottom left corner
         //after the work: add the amount of columns - 1 to i
         //eg: on a 3x3 board, if we start on 2, add 3
         //we're now one row down, or on 5
