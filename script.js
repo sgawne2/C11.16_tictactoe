@@ -54,8 +54,8 @@ var cell_template = function(parent){
     //divides 100 by the amount of cells in a row to get a percentage for the width of the cells
     this.create_self = function(){
         //create a div with class ttt_cell
-        console.log(this.element_width);
-        console.log('cell width: ', this.cell_width);
+        //console.log(this.element_width);
+        //console.log('cell width: ', this.cell_width);
         //console.log( this.element_width * (0.0733333333333333 * this.cell_width) );
         this.element = $("<div>",
             {
@@ -85,7 +85,7 @@ var cell_template = function(parent){
         //if we have multiple game boards this can be useful
         self.symbol = current_player.get_symbol();
         //assigns the symbol of the current player_template (the player whose turn it is) to self.symbol
-        console.log('current player\'s symbol: '+self.symbol);
+        //console.log('current player\'s symbol: '+self.symbol);
         self.element.addClass('selected');
         //adds selected class to the current cell so it won't be selected again (see line 27)
         self.change_symbol(self.symbol);
@@ -105,7 +105,6 @@ var cell_template = function(parent){
         //gets the symbol inside the current cell
         //there's two methods called get_symbol, this one is called by check_win_conditions() in the game_template
         //it loops through each cell and gets the symbols of each to test if they win
-        console.log("this:", this, "self:", self);
         return this.symbol;
         //returns the symbol in the current cell, which we got from calling get_symbol() on the current player_template object
     };
@@ -193,7 +192,7 @@ var game_template = function(main_element, rows, cols){
         //returns the player object at the current_player index in the this.players array
     };
     this.cell_clicked = function(clicked_cell){
-        console.log("this:", this, "self:", self);
+        //console.log("this:", this, "self:", self);
         //"this" actually didn't change here, we could use it if we wanted to for some reason
         self.check_win_conditions();
             //calls check_win_conditions() method to test if the clicked cell won the game
