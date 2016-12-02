@@ -3,6 +3,9 @@ var games_played = 0;
 var player_1_score = 0;
 var player_2_score = 0;
 var global_current_player = 0;
+var isUltimate = false;
+var xImage = "images/red_chip.png";
+var oImage = "images/blue_chip.png";
 //var size = parseInt(prompt("select board size"));
 var size = 3;
 // var timer;
@@ -28,6 +31,8 @@ $(document).ready(function(){
 });
 
 function ultimate(){
+    size = 3;
+    reset();
     for (var i = 0; i < 9; i++) {
         $(main_game.cell_array[i].element).unbind('click');
     }
@@ -38,6 +43,9 @@ function ultimate(){
         main_game[i].create_cells(size, size);
         main_game[i].create_players();
     }
+    isUltimate = true;
+    global_current_player = 0;
+    $('#player_2').removeClass('active_player');
 }
 
 function reset(){
@@ -116,10 +124,10 @@ var cell_template = function(parent){
         //console.log("this:", this, "self:", self);
         //"this" didn't change so we could use it here but Dan used self
         if (symbol == "X") {
-            this.element.html('<img src="images/red_chip.png">');
+            this.element.html('<img src="'+ xImage +'">');
         } else {
             //this.element.text(symbol);
-            this.element.html('<img src="images/blue_chip.png">');
+            this.element.html('<img src="'+ oImage +'">');
         }
         //changes the cell's text (with jQuery's .text() method) to the current player's symbol(an X or an O)
     };
@@ -296,7 +304,16 @@ var game_template = function(main_element, rows, cols){
         for (var i = 0; i < this.cell_array.length; i++) {
             this.cell_array[i].element.addClass('selected game_over');
         }
-        alert(player.get_symbol()+' won the game');
+        //alert(player.get_symbol()+' won the game');
+        if (isUltimate) {
+            if (player.get_symbol() === "X") {
+                this.element.html('<img src="' + xImage + '">');
+            } else {
+                this.element.html('<img src="' + oImage + '">');
+            }
+        } else {
+            alert(player.get_symbol()+' won the game');
+        }
         //just tells the browser to alert who won the game
         //probably change this to something else
         //if(!this.no_click){
