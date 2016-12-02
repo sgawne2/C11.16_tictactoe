@@ -2,6 +2,7 @@ var main_game = null;
 var games_played = 0;
 var player_1_score = 0;
 var player_2_score = 0;
+var currentGid = -1;
 var global_current_player = 0;
 var isUltimate = false;
 var xImage = "images/red_chip.png";
@@ -31,14 +32,15 @@ $(document).ready(function(){
 });
 
 function ultimate(){
+    for (var i = 0; i < size * size; i++) {
     size = 3;
     reset();
-    for (var i = 0; i < 9; i++) {
+
         $(main_game.cell_array[i].element).unbind('click');
     }
     main_game = [];
     $(".ttt_cell").html("");
-    for (i = 0; i < 9; i++) {
+    for (var i = 0; i < size * size; i++) {
         main_game.push(new game_template($('.game_board > .ttt_cell:eq('+ i +')'), size, size));
         main_game[i].create_cells(size, size);
         main_game[i].create_players();
