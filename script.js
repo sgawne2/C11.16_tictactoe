@@ -28,9 +28,11 @@ function reset(){
     $("#pxScore").text(player_1_score);
     $("#poScore").text(player_2_score);
     $("#gpSpan").text(++games_played);
+    $('#player_2').removeClass('active_player');
     main_game = new game_template($('.game_board'),size,size);
     main_game.create_cells(size,size);
     main_game.create_players();
+
     console.log(reset);
 }
 
@@ -259,14 +261,16 @@ var game_template = function(main_element, rows, cols){
         alert(player.get_symbol()+' won the game');
         //just tells the browser to alert who won the game
         //probably change this to something else
-        if(!this.no_click){
-            if(player.get_symbols()==='X'){
+        //if(!this.no_click){
+            if(player.get_symbol()==='X'){
                 player_1_score++;
+                $('#p1Span').text(player_1_score);
             }
             else{
                 player_2_score++;
+                $('#p2Span').text(player_2_score);
             }
-        }
+        //}
     };
 };
 
