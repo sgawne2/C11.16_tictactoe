@@ -31,6 +31,8 @@ $(document).ready(function(){
 });
 
 function ultimate(){
+    //resets the board to a 3x3
+    //converts each of the current board's cells into a new board
     size = 3;
     reset();
     for (var i = 0; i < 9; i++) {
@@ -49,6 +51,7 @@ function ultimate(){
 }
 
 function reset(){
+    //clears the board and makes a new game object
     isUltimate = false;
     $(".game_board").html("");
     $("#pxScore").text(player_1_score);
@@ -452,14 +455,23 @@ function set_win_conditions(height, width) {
 
 function check_ultimate_win() {
     var ultimate_wins = set_win_conditions(3,3);
+        //assigns array of 3x3 win conditions to variable
     var ultimate_cells = $('.game_board > .ttt_cell');
+        //the ttt_cells that are direct children of game_board only
     for(var i=0; i<ultimate_wins.length;i++){
+        //loop for every possible win condition
         var count=0;
+            //reset count for each loop
         for(var j=0; j<ultimate_wins[i].length; j++){
+            //loop for each required space in a win condition array
                 if($(ultimate_cells[ultimate_wins[i][j]]).attr('data') == global_current_player) {
+                    //selects the ttt_cell at the index inside the win condition array
+                    //compares the data attribute to the global_current_player variable
                     console.log('symbols match');
                     count++;
+                    //increment count for each match
                 if(count===3){
+                    //if you get 3 in a row
                     console.log('count', count, 'rows', this.rows);
                     console.log('someone won');
                     if (global_current_player) {
