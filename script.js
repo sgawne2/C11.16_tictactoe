@@ -43,7 +43,7 @@ var cell_template = function(parent){
         //create a div with class ttt_cell
         console.log(this.element_width);
         console.log('cell width: ', this.cell_width);
-        console.log( this.element_width * (0.0733333333333333 * this.cell_width) );
+        //console.log( this.element_width * (0.0733333333333333 * this.cell_width) );
         this.element = $("<div>",
             {
                 class:'ttt_cell',
@@ -232,12 +232,12 @@ var game_template = function(main_element, rows, cols){
         } //end of outer loop
         //TODO check conditions
     };
-    this.check_draw = function(){
-        for (var i = 0; i < this.cell_array.length; i++) {
-            var count = 0;
-            if()
-        };
-    };
+    // this.check_draw = function(){
+    //     for (var i = 0; i < this.cell_array.length; i++) {
+    //         var count = 0;
+    //         if()
+    //     };
+    // };
     this.player_wins = function(player){
         console.log(player.get_symbol()+' won the game');
         for (var i = 0; i < this.cell_array.length; i++) {
