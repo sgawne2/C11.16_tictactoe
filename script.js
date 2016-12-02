@@ -2,6 +2,7 @@ var main_game = null;
 var games_played = 0;
 var player_1_score = 0;
 var player_2_score = 0;
+var global_current_player = 0;
 //var size = parseInt(prompt("select board size"));
 var size = 3;
 // var timer;
@@ -48,7 +49,7 @@ function reset(){
     main_game = new game_template($('.game_board'),size,size);
     main_game.create_cells(size,size);
     main_game.create_players();
-
+    global_current_player=0;
     console.log(reset);
 }
 
@@ -115,10 +116,10 @@ var cell_template = function(parent){
         //console.log("this:", this, "self:", self);
         //"this" didn't change so we could use it here but Dan used self
         if (symbol == "X") {
-            this.element.html('<img src="images/x-test.png">');
+            this.element.html('<img src="images/red_chip.png">');
         } else {
             //this.element.text(symbol);
-            this.element.html('<img src="images/o-test.png">');
+            this.element.html('<img src="images/blue_chip.png">');
         }
         //changes the cell's text (with jQuery's .text() method) to the current player's symbol(an X or an O)
     };
@@ -196,21 +197,25 @@ var game_template = function(main_element, rows, cols){
     };
     this.switch_players = function(){
         //console.log('current player before '+this.current_player);
-        if(this.current_player){
+        //if(this.current_player){
+        if(global_current_player){
             //if current player index isn't 0
             //this will only work with 2 players in the this.players array
-            this.current_player=0;
+            //this.current_player=0;
+            global_current_player=0;
             //makes current player's index 0
         } else{
             //if current player is 0
-            this.current_player=1;
+            //this.current_player=1;
+            global_current_player=1;
             //makes current player's index 1
         }
         //console.log('current player before '+this.current_player);
     };
     this.get_current_player = function(){
         //console.log('current player is ',this.players);
-        return this.players[this.current_player];
+        //return this.players[this.current_player];
+        return this.players[global_current_player];
         //returns the player object at the current_player index in the this.players array
     };
     this.cell_clicked = function(clicked_cell){
@@ -219,11 +224,13 @@ var game_template = function(main_element, rows, cols){
         self.check_win_conditions();
             //calls check_win_conditions() method to test if the clicked cell won the game
         self.check_draw();
-        self.players[self.current_player].deactivate_player();
+        //self.players[self.current_player].deactivate_player();
+        self.players[global_current_player].deactivate_player();
         //calls deactivate_player() method on the current player to remove the active_player class from their element
         self.switch_players();
         //calls switch_players() method on this game_template to change the current_players property to the next player's index in the players array
-        self.players[self.current_player].activate_player();
+        //self.players[self.current_player].activate_player();
+        self.players[global_current_player].activate_player();
         //calls activate players on the now switched current player to add the active_player class to their element
         /*
         clearTimeout(timer);
@@ -243,7 +250,8 @@ var game_template = function(main_element, rows, cols){
     this.check_win_conditions = function(){
         console.log(this.win_conditions);
         //console.log('check win conditions called');
-        var current_player_symbol = this.players[this.current_player].get_symbol();
+        // var current_player_symbol = this.players[this.current_player].get_symbol();
+        var current_player_symbol = this.players[global_current_player].get_symbol();
         //calls .get_symbol() method on the player in the this.players array at the current_player index
         for(var i=0; i<this.win_conditions.length;i++){
             //loops through every item in win_conditions array
@@ -263,7 +271,8 @@ var game_template = function(main_element, rows, cols){
                         console.log('count', count, 'rows', this.rows);
                         //if count reaches 3
                         console.log('someone won');
-                        this.player_wins(this.players[this.current_player]);
+                        // this.player_wins(this.players[this.current_player]);
+                        this.player_wins(this.players[global_current_player]);
                         //calls this.player_wins method and passes it the current player (player in the players array at the current_player's index)
                     }//end of count == 3
                 } //end of symbols match

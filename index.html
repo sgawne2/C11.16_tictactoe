@@ -19,10 +19,8 @@
             text-align: center;
             color: white;
         }
-
         #stats_area {
             text-align: center;
-
         }
         #stats_main{
             background-color: rgba(228,255,0,0.5);
@@ -94,6 +92,10 @@
         #players{
             padding: 0;
         }
+        #player_1 img, #player_2 img {
+            width:100%;
+            max-height:100%;
+        }
         #player_1 > h1, #player_2 > h1{
             margin-top:0px;
             padding-top: 50px;
@@ -116,8 +118,7 @@
         }
         .game_board img {
             height:100%;
-            position:relative;
-            background-color: rgba(255, 255, 255, 0.51);
+            width:100%;
             /*float: left;*/
         }
         .active_player{
@@ -204,11 +205,14 @@
     <div id="players" class="col-lg-2">
         <div id="player_1">
             <h1>Player1</h1>
-            <span>X</span>
+            <span>
+                <img src="images/red_chip.png">
+            </span>
         </div>
         <div id="player_2">
             <h1>Player 2</h1>
-            <span>O</span>
+            <span>
+                <img src="images/blue_chip.png"></span>
         </div>
     </div>
     <div id="game_area" class="col-lg-10">
