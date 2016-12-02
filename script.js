@@ -7,6 +7,7 @@ var size = 3;
 // var timer;
 // var countdown = 10;
 $(document).ready(function(){
+    $('#ultimate_button').click(ultimate);
     $('#reset_button').click(reset);
     main_game = new game_template($('.game_board'), size, size);
     //creates a new game_template object called main_game
@@ -25,14 +26,29 @@ $(document).ready(function(){
     });
 });
 
+function ultimate(){
+    for (var i = 0; i < 9; i++) {
+        $(main_game.cell_array[i].element).unbind('click');
+    }
+    main_game = [];
+    $(".ttt_cell").html("");
+    for (i = 0; i < 9; i++) {
+        main_game.push(new game_template($('.game_board > .ttt_cell:eq('+ i +')'), size, size));
+        main_game[i].create_cells(size, size);
+        main_game[i].create_players();
+    }
+}
+
 function reset(){
     $(".game_board").html("");
     $("#pxScore").text(player_1_score);
     $("#poScore").text(player_2_score);
     $("#gpSpan").text(++games_played);
+    $('#player_2').removeClass('active_player');
     main_game = new game_template($('.game_board'),size,size);
     main_game.create_cells(size,size);
     main_game.create_players();
+
     console.log(reset);
 }
 
@@ -116,7 +132,6 @@ var cell_template = function(parent){
         //returns the symbol in the current cell, which we got from calling get_symbol() on the current player_template object
     };
 };
-$(main_game.cell_array[0].element).unbind('click');
 var game_template = function(main_element, rows, cols){
     //console.log('game template constructor called');
     var self = this;
@@ -167,7 +182,7 @@ var game_template = function(main_element, rows, cols){
         }
     };
     this.create_players = function(){
-        var player1 = new player_template('X', $('#player_1'));
+        var player1 = new player_template('X' , $('#player_1'));
         //creates new player_template object with symbol: X, and element with id #player1
         var player2 = new player_template('O', $('#player_2'));
         //creates new player_template object with symbol: O, and element: with id #player2
@@ -278,9 +293,11 @@ var game_template = function(main_element, rows, cols){
         //if(!this.no_click){
             if(player.get_symbol()==='X'){
                 player_1_score++;
+                $('#p1Span').text(player_1_score);
             }
             else{
                 player_2_score++;
+                $('#p2Span').text(player_2_score);
             }
         //}
     };

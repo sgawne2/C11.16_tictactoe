@@ -83,6 +83,7 @@ ul {
     border: 1px solid black;
     display: inline-block;
     font-size: initial;
+    float: left;
 }
 .active_player{
     background-color: red;
