@@ -169,7 +169,7 @@ var game_template = function(main_element, rows, cols){
         var selected = $(this.element).find('.selected').length; //assigns the amount of elements with the class 'selected' that are children of this game board to variable
         var game_over = $(this.element).find('.game_over').length; //assigns the amount of elements with the class 'game_over' that are children of this game board to variable
         if (selected === this.rows * this.cols && !game_over ) { //if all the cells are selected and no cells have class 'game_over'
-            alert("Draw Game");
+            win_msg("Draw Game");
         }
     };
     this.player_wins = function(player){
@@ -190,9 +190,9 @@ var game_template = function(main_element, rows, cols){
             }
         } else {
             if (player.get_symbol() == "X") {
-                alert('Red won the game');
+                win_msg('Red won the game');
             }  else {
-                alert('Blue won the game');
+                win_msg('Blue won the game');
             }
 
         }
@@ -321,10 +321,10 @@ function check_ultimate_win() {
                 count++; //increment count for each match
                 if(count===3){ //if you get 3 in a row
                     if (global_current_player) {
-                        alert("Blue wins");
+                        win_msg("Blue wins");
                         $('.ttt_cell').addClass('selected game_over');
                     } else {
-                        alert("Red wins");
+                        win_msg("Red wins");
                         $('.ttt_cell').addClass('selected game_over');
                     }
                 }
@@ -334,6 +334,11 @@ function check_ultimate_win() {
     var selected = $('.game_board').find('.selected').length;
     var game_over = $('.game_board').find('.game_over').length;
     if (selected === 9 && !game_over ) { //if all the cells are selected and no cells have class 'game_over'
-        alert("Draw Game");
+        win_msg("Draw Game");
     }
+}
+
+function win_msg(msg) {
+    $("#myModal").modal();
+    $(".modal-body").text(msg);
 }
