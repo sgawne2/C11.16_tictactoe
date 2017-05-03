@@ -2,6 +2,10 @@
 
 A simple casino themed Tic-Tac-Toe game built for a group hack-a-thon project.
 
+## Live Demo
+
+* https://sgawne2.github.io/C11.16_tictactoe
+
 ## Features
 
 * Board sizes from 3x3 up to 10x10
